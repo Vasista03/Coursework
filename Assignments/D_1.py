@@ -1,11 +1,13 @@
-import sys
-print("Python version:", sys.version)
- 
-# Check installed modules
-help("modules")
- 
-# Quick version compare
-if sys.version_info >= (3, 10):
-    print("✅ You’re on a modern Python version!")
-else:
-    print("⚠️ Consider Upgrading Python.")
+from PIL import Image
+
+img = Image.open("C:\\Users\\Sravanthi\\Pictures\\Screenshots\\Screenshot 2025-09-01 164652.png")
+print("this is Disk Management after shrinking the volume and created the new partition D DRIVE")
+img.show()
+
+img1 = Image.open("C:\\Users\\Sravanthi\\Pictures\\Screenshots\\Screenshot 2025-09-01 164937.png")
+print("This is the final folder structure of Course work in D DRIVE")
+img1.show()
+
+img2 = Image.open("C:\\Users\\Sravanthi\\Pictures\\Screenshots\\Screenshot 2025-09-01 165412.png")
+print("This is the final folder structure.")
+img2.show()
