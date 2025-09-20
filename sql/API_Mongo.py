@@ -1,4 +1,14 @@
-from fastapi import FastAPI, HTTPException, UploadFile, File, Request, Form, Depends, Header, Query
+from fastapi import (
+    FastAPI,
+    HTTPException,
+    UploadFile,
+    File,
+    Request,
+    Form,
+    Depends,
+    Header,
+    Query,
+)
 import pandas as pd
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
@@ -6,13 +16,14 @@ from bson import ObjectId
 from pydantic import BaseModel
 import math
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse, RedirectResponse,JSONResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 API_KEY = "secret123"
+
 
 # ---------- STARTUP / SHUTDOWN ----------
 @app.on_event("startup")
@@ -90,7 +101,7 @@ def read_root():
 
 
 # ---------- STATIC FILES ----------
-#app.mount("/static", StaticFiles(directory="static"), name="static")
+# app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 # ---------- STUDENTS ----------
@@ -112,21 +123,13 @@ def search_students(name: str):
     students = list(db.students.find({"name": {"$regex": name, "$options": "i"}}))
     return [clean_document(s) for s in students]
 
-'''
-# ✅ Put HTML endpoint ABOVE the dynamic {student_id}
-@app.get("/students/html", response_class=HTMLResponse)
-def students_html(request: Request):
-    students = list(db.students.find())
-    return templates.TemplateResponse(
-        "student_list.html", {"request": request, "students": students}
-    )
-'''
 
 @app.get("/students/paginated")
 def paginated_students(page: int = Query(1, ge=1), limit: int = Query(10, ge=1)):
     skip = (page - 1) * limit
     students = list(db.students.find().skip(skip).limit(limit))
     return [clean_document(s) for s in students]
+
 
 @app.get("/students/filter")
 def filter_students(
@@ -138,6 +141,16 @@ def filter_students(
         db.students.find({"age": {"$gte": min_age}}).sort("age", sort_order)
     )
     return [clean_document(s) for s in students]
+
+
+# ✅ Put HTML endpoint ABOVE the dynamic {student_id}
+@app.get("/students/html", response_class=HTMLResponse)
+def students_html(request: Request):
+    students = list(db.students.find())
+    return templates.TemplateResponse(
+        "students_form.html", {"request": request, "students": students}
+    )
+
 
 @app.get("/students/{student_id}")
 def get_student(student_id: int):
@@ -259,7 +272,7 @@ def get_enrollments():
 def list_databases():
     return {"databases": client.list_database_names()}
 
-'''
+
 # ---------- UPLOAD CSV ----------
 @app.post("/upload-csv")
 async def upload_csv(file: UploadFile = File(...)):
@@ -268,7 +281,7 @@ async def upload_csv(file: UploadFile = File(...)):
     if records:
         db.students.insert_many(records)
     return {"inserted_count": len(records)}
-'''
+
 
 # ---------- FORM ----------
 @app.get("/form/student", response_class=HTMLResponse)
@@ -293,9 +306,11 @@ def submit_student(
     db.students.insert_one(student)
     return RedirectResponse(url="/students", status_code=303)
 
+
 def verify_api_key(x_api_key: str = Header(...)):
     if x_api_key != API_KEY:
         raise HTTPException(status_code=401, detail="Invalid or missing API Key")
+
 
 # Example secure route
 @app.get("/secure/students", dependencies=[Depends(verify_api_key)])
@@ -303,23 +318,26 @@ def secure_get_students():
     students = list(db.students.find({}, {"_id": 0}))
     return students
 
+
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     log_entry = {
         "method": request.method,
         "path": request.url.path,
-        "timestamp": datetime.utcnow()
+        "timestamp": datetime.utcnow(),
     }
-    db.logs.insert_one(log_entry)   # save log in MongoDB
+    db.logs.insert_one(log_entry)  # save log in MongoDB
 
     response = await call_next(request)
     return response
+
 
 @app.post("/set-name")
 def set_name(name: str):
     response = HTMLResponse(content=f"Name set to {name}")
     response.set_cookie(key="username", value=name)
     return response
+
 
 @app.get("/welcome")
 def welcome(request: Request):
@@ -328,9 +346,12 @@ def welcome(request: Request):
         return {"message": "Hello, guest! Please set your name first."}
     return {"message": f"Welcome back, {username}!"}
 
+
 @app.exception_handler(DuplicateKeyError)
 async def duplicate_key_handler(request: Request, exc: DuplicateKeyError):
     return JSONResponse(
         status_code=409,
-        content={"error": "Duplicate key error. A record with this value already exists."},
+        content={
+            "error": "Duplicate key error. A record with this value already exists."
+        },
     )

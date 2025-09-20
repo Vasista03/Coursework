@@ -1,0 +1,25 @@
+order_date,region,category,subcategory,sales,quantity,profit,customer_segment
+2024-01-15,North,Electronics,Mobile Phones,18450,42,3650,Consumer
+2024-01-22,South,Office Supplies,Paper,3250,180,450,Small Business
+2024-02-05,East,Furniture,Chairs,9650,34,2050,Corporate
+2024-02-18,West,Electronics,Laptops,23800,28,5200,Consumer
+2024-03-09,North,Office Supplies,Binders,4120,220,780,Corporate
+2024-03-21,South,Furniture,Tables,14600,19,3100,Consumer
+2024-04-02,East,Electronics,Accessories,5200,150,960,Home Office
+2024-04-18,West,Furniture,Chairs,10120,37,1875,Corporate
+2024-05-06,North,Electronics,Laptops,25750,30,5480,Consumer
+2024-05-19,South,Office Supplies,Writing,2890,210,520,Small Business
+2024-06-11,East,Furniture,Storage,7850,25,1430,Home Office
+2024-06-27,West,Electronics,Mobile Phones,19480,44,3820,Consumer
+2024-07-08,North,Office Supplies,Paper,3390,190,480,Corporate
+2024-07-23,South,Furniture,Furnishings,6290,17,880,Home Office
+2024-08-15,East,Electronics,Laptops,21540,26,4890,Corporate
+2024-08-29,West,Office Supplies,Binders,4560,230,820,Consumer
+2024-09-12,North,Furniture,Tables,15400,21,3220,Small Business
+2024-09-26,South,Electronics,Accessories,5340,160,1010,Corporate
+2024-10-10,East,Office Supplies,Writing,3010,205,560,Consumer
+2024-10-24,West,Furniture,Storage,8420,27,1520,Home Office
+2024-11-07,North,Electronics,Accessories,5480,170,990,Corporate
+2024-11-21,South,Office Supplies,Paper,3470,195,500,Home Office
+2024-12-05,East,Furniture,Furnishings,6650,18,920,Consumer
+2024-12-19,West,Electronics,Laptops,22980,29,4980,Corporate
